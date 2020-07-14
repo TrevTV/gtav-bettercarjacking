@@ -11,7 +11,14 @@ public class BetterCarjacking : Script
         Tick += OnTick;
     }
 
-    private void OnTick(object sender, EventArgs e)
+    void OnTick(object sender, EventArgs e)
+    {
+        // Aim check to have better performance
+        if (Game.Player.IsAiming)
+            PedCheck();
+    }
+
+    void PedCheck()
     {
         // Get all peds within a radius and run code for each
         foreach (Ped ped in World.GetNearbyPeds(Game.Player.Character, 25f))
