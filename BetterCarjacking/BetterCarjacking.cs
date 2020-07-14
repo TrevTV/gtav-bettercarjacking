@@ -13,14 +13,12 @@ public class BetterCarjacking : Script
 
     void OnTick(object sender, EventArgs e)
     {
-        // Aim check to have better performance
         if (Game.Player.IsAiming)
             PedCheck();
     }
 
     void PedCheck()
     {
-        // Get all peds within a radius and run code for each
         foreach (Ped ped in World.GetNearbyPeds(Game.Player.Character, 25f))
         {
             if (!CanJackPed(ped))
@@ -33,12 +31,11 @@ public class BetterCarjacking : Script
 
             Decelerate(ped.CurrentVehicle);
 
-            // Script.Wait(1000);
             Function.Call(Hash.TASK_LEAVE_VEHICLE, ped, ped.CurrentVehicle, 256);
+
             while (ped.IsSittingInVehicle())
-            {
-                Script.Wait(100);
-            }
+                Wait(100);
+
             Function.Call(Hash.TASK_REACT_AND_FLEE_PED, ped, Game.Player.Character);
         }
     }

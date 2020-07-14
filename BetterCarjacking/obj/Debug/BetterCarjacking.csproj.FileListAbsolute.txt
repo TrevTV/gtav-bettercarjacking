@@ -20,3 +20,11 @@ D:\Projects\GTA V Mods\_Released Mods\BetterCarjacking\BetterCarjacking\obj\Debu
 D:\Projects\GTA V Mods\_Released Mods\BetterCarjacking\BetterCarjacking\obj\Debug\BetterCarjacking.csproj.CopyComplete
 D:\Projects\GTA V Mods\_Released Mods\BetterCarjacking\BetterCarjacking\obj\Debug\BetterCarjacking.dll
 D:\Projects\GTA V Mods\_Released Mods\BetterCarjacking\BetterCarjacking\obj\Debug\BetterCarjacking.pdb
+F:\Projects\GitHub\bettercarjacking\BetterCarjacking\bin\Debug\BetterCarjacking.dll
+F:\Projects\GitHub\bettercarjacking\BetterCarjacking\bin\Debug\BetterCarjacking.pdb
+F:\Projects\GitHub\bettercarjacking\BetterCarjacking\bin\Debug\ScriptHookVDotNet3.dll
+F:\Projects\GitHub\bettercarjacking\BetterCarjacking\obj\Debug\BetterCarjacking.csprojAssemblyReference.cache
+F:\Projects\GitHub\bettercarjacking\BetterCarjacking\obj\Debug\BetterCarjacking.csproj.CoreCompileInputs.cache
+F:\Projects\GitHub\bettercarjacking\BetterCarjacking\obj\Debug\BetterCarjacking.csproj.CopyComplete
+F:\Projects\GitHub\bettercarjacking\BetterCarjacking\obj\Debug\BetterCarjacking.dll
+F:\Projects\GitHub\bettercarjacking\BetterCarjacking\obj\Debug\BetterCarjacking.pdb
