@@ -30,19 +30,24 @@ public class BetterCarjacking : Script
                 return;
 
             ped.BlockPermanentEvents = true;
-            Game.Player.IsTargeting(ped.CurrentVehicle);
-            // Decelerate
-            while ((ped.CurrentVehicle.WheelSpeed * 3.16) > 3)
-            {
-                ped.CurrentVehicle.Speed = ped.CurrentVehicle.Speed - (1f * 3.16f);
-            }
-            Script.Wait(1000);
+
+            Decelerate(ped.CurrentVehicle);
+
+            // Script.Wait(1000);
             Function.Call(Hash.TASK_LEAVE_VEHICLE, ped, ped.CurrentVehicle, 256);
             while (ped.IsSittingInVehicle())
             {
                 Script.Wait(100);
             }
             Function.Call(Hash.TASK_REACT_AND_FLEE_PED, ped, Game.Player.Character);
+        }
+    }
+
+    void Decelerate(Vehicle veh)
+    {
+        while ((veh.WheelSpeed * 3.16) > 3)
+        {
+            veh.Speed -= 3.16f;
         }
     }
 
