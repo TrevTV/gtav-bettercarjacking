@@ -1,12 +1,6 @@
 ﻿using GTA;
 using GTA.Native;
-using GTA.Math;
 using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.IO;
-using System.Drawing;
-using System.Media;
 
 public class BetterCarjacking : Script
 {
