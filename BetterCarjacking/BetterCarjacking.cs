@@ -1,72 +1,81 @@
 ﻿using GTA;
 using GTA.Native;
 using System;
+using System.Windows.Forms;
 
-public class BetterCarjacking : Script
+namespace BetterCarjacking
 {
-    private Random rand = new Random();
-
-    public BetterCarjacking()
+    public class BetterCarjacking : Script
     {
-        Tick += OnTick;
-    }
+        private Random rand = new Random();
 
-    void OnTick(object sender, EventArgs e)
-    {
-        if (Game.Player.IsAiming)
+        public BetterCarjacking()
+        {
+            Tick += OnTick;
+        }
+
+        void OnTick(object sender, EventArgs e)
+        {
+            GTA.UI.Notification.Show(Game.Player.IsAiming.ToString(), false);
             PedCheck();
-    }
-
-    void PedCheck()
-    {
-        foreach (Ped ped in World.GetNearbyPeds(Game.Player.Character, 25f))
-        {
-            if (!CanJackPed(ped))
-                return;
-
-            if (!(rand.Next(0, 100) <= 100))
-                return;
-
-            ped.BlockPermanentEvents = true;
-
-            Decelerate(ped.CurrentVehicle);
-
-            Function.Call(Hash.TASK_LEAVE_VEHICLE, ped, ped.CurrentVehicle, 256);
-
-            while (ped.IsSittingInVehicle())
-                Wait(100);
-
-            Function.Call(Hash.TASK_REACT_AND_FLEE_PED, ped, Game.Player.Character);
         }
-    }
 
-    void Decelerate(Vehicle veh)
-    {
-        while ((veh.WheelSpeed * 3.16) > 3)
+        void PedCheck()
         {
-            veh.Speed -= 3.16f;
+            GTA.UI.Notification.Show("Checking Ped", false);
+            foreach (Ped ped in World.GetNearbyPeds(Game.Player.Character, 100f))
+            {
+                GTA.UI.Notification.Show("Found Ped", false);
+                if (!CanJackPed(ped))
+                    return;
+
+                if (!(rand.Next(0, 100) <= 100))
+                    return;
+
+                GTA.UI.Notification.Show("Jacking Ped", false);
+                ped.BlockPermanentEvents = true;
+
+                Decelerate(ped.CurrentVehicle);
+
+                Function.Call(Hash.TASK_LEAVE_VEHICLE, ped, ped.CurrentVehicle, 256);
+
+                while (ped.IsSittingInVehicle())
+                    Wait(100);
+
+                Function.Call(Hash.TASK_REACT_AND_FLEE_PED, ped, Game.Player.Character);
+            }
         }
-    }
 
-    bool CanJackPed(Ped ped)
-    {
-        var pedInVehicle = ped.IsSittingInVehicle();
-        var targeting = Game.Player.IsTargeting(ped) || Game.Player.IsTargeting(ped.CurrentVehicle);
-        var pedInPolice = ped.IsInPoliceVehicle;
-        var driverIsPlayer = ped.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.Player.Character;
-        var playerInVehicle = Game.Player.Character.IsSittingInVehicle();
+        void Decelerate(Vehicle veh)
+        {
+            while (veh.WheelSpeed * 3.16 > 3)
+            {
+                veh.Speed -= 3.16f;
+            }
+        }
 
-        if (!pedInVehicle)
-            return false;
-        if (!targeting)
-            return false;
-        if (pedInPolice)
-            return false;
-        if (driverIsPlayer)
-            return false;
-        if (playerInVehicle)
-            return false;
+        bool CanJackPed(Ped ped)
+        {
+            var pedInVehicle = ped.IsSittingInVehicle();
 
-        return true;
+            if (!pedInVehicle)
+                return false;
+
+            var targeting = Game.Player.IsTargeting(ped) || Game.Player.IsTargeting(ped.CurrentVehicle);
+            var pedInPolice = ped.IsInPoliceVehicle;
+            var driverIsPlayer = ped.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.Player.Character;
+            var playerInVehicle = Game.Player.Character.IsSittingInVehicle();
+
+            if (!targeting)
+                return false;
+            if (driverIsPlayer)
+                return false;
+            if (pedInPolice)
+                return false;
+            if (playerInVehicle)
+                return false;
+            GTA.UI.Notification.Show("Can Jack Ped", false);
+            return true;
+        }
     }
 }
