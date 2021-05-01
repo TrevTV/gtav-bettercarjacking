@@ -1,81 +1,51 @@
-﻿using GTA;
+﻿using System;
+
+using GTA;
 using GTA.Native;
-using System;
-using System.Windows.Forms;
 
 namespace BetterCarjacking
 {
     public class BetterCarjacking : Script
     {
         private Random rand = new Random();
+        private int leaveCarChance;
 
         public BetterCarjacking()
         {
+            ScriptSettings scriptSettings = ScriptSettings.Load("scripts\\BetterCarjacking.ini");
+            leaveCarChance = scriptSettings.GetValue("Main", "LeaveCarChance", 60);
+
             Tick += OnTick;
         }
 
-        void OnTick(object sender, EventArgs e)
+        private void OnTick(object sender, EventArgs e)
         {
-            GTA.UI.Notification.Show(Game.Player.IsAiming.ToString(), false);
-            PedCheck();
-        }
-
-        void PedCheck()
-        {
-            GTA.UI.Notification.Show("Checking Ped", false);
-            foreach (Ped ped in World.GetNearbyPeds(Game.Player.Character, 100f))
+            try
             {
-                GTA.UI.Notification.Show("Found Ped", false);
-                if (!CanJackPed(ped))
-                    return;
+                foreach (Ped ped in World.GetNearbyPeds(Game.Player.Character, 15f))
+                {
+                    if (IsPlayerTargeting(ped) && CanPedSeePlayer(ped) && ShouldPedLeaveCar())
+                    {
+                        ped.BlockPermanentEvents = true;
 
-                if (!(rand.Next(0, 100) <= 100))
-                    return;
+                        while (ped.CurrentVehicle.WheelSpeed * 3.16 > 3)
+                            ped.CurrentVehicle.Speed -= 0.316f;
 
-                GTA.UI.Notification.Show("Jacking Ped", false);
-                ped.BlockPermanentEvents = true;
+                        Wait(GetRandomWaitBeforeExit());
 
-                Decelerate(ped.CurrentVehicle);
-
-                Function.Call(Hash.TASK_LEAVE_VEHICLE, ped, ped.CurrentVehicle, 256);
-
-                while (ped.IsSittingInVehicle())
-                    Wait(100);
-
-                Function.Call(Hash.TASK_REACT_AND_FLEE_PED, ped, Game.Player.Character);
+                        Function.Call(Hash.TASK_LEAVE_VEHICLE, ped, ped.CurrentVehicle, 256);
+                        while (ped.IsSittingInVehicle()) Wait(100);
+                        Function.Call(Hash.TASK_REACT_AND_FLEE_PED, ped, Game.Player.Character);
+                    }
+                }
             }
+            catch { }
         }
 
-        void Decelerate(Vehicle veh)
-        {
-            while (veh.WheelSpeed * 3.16 > 3)
-            {
-                veh.Speed -= 3.16f;
-            }
-        }
+        private int GetRandomWaitBeforeExit() => rand.Next(500, 2500);
 
-        bool CanJackPed(Ped ped)
-        {
-            var pedInVehicle = ped.IsSittingInVehicle();
-
-            if (!pedInVehicle)
-                return false;
-
-            var targeting = Game.Player.IsTargeting(ped) || Game.Player.IsTargeting(ped.CurrentVehicle);
-            var pedInPolice = ped.IsInPoliceVehicle;
-            var driverIsPlayer = ped.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) == Game.Player.Character;
-            var playerInVehicle = Game.Player.Character.IsSittingInVehicle();
-
-            if (!targeting)
-                return false;
-            if (driverIsPlayer)
-                return false;
-            if (pedInPolice)
-                return false;
-            if (playerInVehicle)
-                return false;
-            GTA.UI.Notification.Show("Can Jack Ped", false);
-            return true;
-        }
+        private bool ShouldPedLeaveCar() => rand.Next(100) < leaveCarChance;
+        private bool IsPlayerTargeting(Entity entity) => Function.Call<bool>(Hash.IS_PLAYER_FREE_AIMING_AT_ENTITY, Game.Player, entity);
+        private bool CanPedSeePlayer(Ped ped) => Function.Call<bool>(Hash.IS_PED_FACING_PED, ped, Game.Player.Character, 90f);
     }
 }
