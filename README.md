@@ -1,17 +1,17 @@
 # Better Carjacking [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S244CYE)
 
-A GTA V mod that allows peds to simply flee their vehicle when targeted. <br><br>
+A GTA V mod that allows peds to simply flee their vehicle when targeted.
 
 # Building Instructions
-Make sure you have .NET Framework 4.8 installed.<br>
-Open "BetterCarjacking.sln" in Visual Studio. <br>
-Go to Refrences in the Solution Explorer and set the location for ScriptHookVDotNet3<br>
-Go to the Build tab then "Build Better Carjacking"<br> <br>
+1. Make sure you have .NET Framework 4.8 installed.
+2. Open `BetterCarjacking.sln` in Visual Studio.
+3. Go to Refrences in the Solution Explorer and set the location for ScriptHookVDotNet3
+4. Go to the `Build` tab then `Build BetterCarjacking`
 
 NOTE: Build Events are set to my copy of GTA V located at `F:\Games\steamapps\common\Grand Theft Auto V`, you will need to change it if installed elsewhere
 
-# Installation and Dependencies:
-You need to have ScriptHookV and ScriptHookVDotNet 3 installed.<br>
+# Installation and Dependencies
+You need to have ScriptHookV and ScriptHookVDotNet 3 installed.  
 Move BetterCarjacking.dll and BetterCarjacking.ini into your scripts folder
 
 # Usage
