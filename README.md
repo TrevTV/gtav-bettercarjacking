@@ -1,4 +1,4 @@
-# Better Carjacking [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S244CYE)
+# Better Carjacking
 
 A GTA V mod that allows peds to simply flee their vehicle when targeted.
 
